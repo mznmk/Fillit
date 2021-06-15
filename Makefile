@@ -6,7 +6,7 @@
 #    By: mmizuno <mmizuno@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 13:32:12 by mmizuno           #+#    #+#              #
-#    Updated: 2021/06/14 18:16:21 by mmizuno          ###   ########.fr        #
+#    Updated: 2021/06/15 09:21:18 by mmizuno          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,10 @@ FILLIT_DIR			= $(PRJ_DIR)
 FILLIT_INCDIR		= $(FILLIT_DIR)include/
 FILLIT_SRCDIR		= $(FILLIT_DIR)source/
 FILLIT_SRCNAME		= print_message.c \
+					  read_tetrimino.c \
+					  validate_tetrimino.c \
+					  parse_tetrimino.c \
+					  print_tetrimino.c \
 					  main.c
 FILLIT_SRCS			= $(addprefix $(FILLIT_SRCDIR), $(FILLIT_SRCNAME))
 FILLIT_OBJS			= $(FILLIT_SRCS:.c=.o)
@@ -27,12 +31,12 @@ FILLIT_OBJS			= $(FILLIT_SRCS:.c=.o)
 LIBFT_NAME			= libft.a
 LIBFT_LIBNAME		= ft
 LIBFT_DIR			= ./libft/
-LIBFT_INC_DIR		= $(LIBFT_DIR)includes/
+LIBFT_INCDIR		= $(LIBFT_DIR)includes/
 
 CC					= gcc
-CFLAGS				= -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS				= -Wall -Wextra -Werror -g -fsanitize=address
 INCDIR				= -I $(FILLIT_INCDIR)
-INCDIR				+= -I $(LIBFT_INC_DIR)
+INCDIR				+= -I $(LIBFT_INCDIR)
 LIBDIR				= -L $(LIBFT_DIR)
 LIBS				= -l $(LIBFT_LIBNAME)
 
@@ -60,8 +64,7 @@ ESC_CLR_PINK		= \033[38;5;213m
 # ---------------------------------- .c.o ------------------------------------ #
 
 .c.o:
-					$(CC) $(CFLAGS) -I $(INCDIR) -c $< -o $(<:.c=.o)
-					# $(CC) $(CFLAGS) -I ./libft/includes/ -I ./include/ -c $< -o $(<:.c=.o)
+					$(CC) $(CFLAGS) $(INCDIR) -c $< -o $(<:.c=.o)
 
 # --------------------------------- $(NAME) ---------------------------------- #
 
@@ -69,7 +72,6 @@ $(NAME):			$(FILLIT_OBJS)
 					@make $(LIBFT_NAME)
 					$(CC) $(CFLAGS) $(FILLIT_OBJS) $(LIBDIR) $(LIBS) -o $(NAME)
 					@echo "$(ESC_FNT_BOLD)$(ESC_CLR_GREEN)[ $(NAME) successfully compiled !! ]$(ESC_RESET)"
-					# $(CC) $(CFLAGS) $(FILLIT_OBJS) $(LIBDIR) -l ft -o $(NAME)
 
 # ----------------------------------- all ------------------------------------ #
 

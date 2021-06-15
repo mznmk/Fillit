@@ -6,7 +6,7 @@
 /*   By: mmizuno <mmizuno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 02:39:19 by mmizuno           #+#    #+#             */
-/*   Updated: 2021/06/14 18:44:27 by mmizuno          ###   ########.fr       */
+/*   Updated: 2021/06/15 09:16:57 by mmizuno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 
 // ================================== const ================================= //
 
+# define TETRIMINO_GRID_SIZE		4
 # define TETRIMINO_BLOCK_COUNT		4
-# define TETRIMINO_CONTAINER_SIZE	4
+
+# define TTRMN_LINE_SIZE			5
+# define TTRMN_SINGLE_SIZE			20
+# define TTRMN_MAX_SIZE				545
 
 // -------------------------------- message --------------------------------- //
 
@@ -25,8 +29,11 @@
 # define SUCCESS_MSG_HEADER			"SUCCESS: "
 
 # define USAGE_MSG_DESCRIPTION		"./fillit [ Tetrimino's FilePath ]"
-
-
+# define ERROR_FAIL_OPEN_FILE		"fail to open Tetrimino's File ..."
+# define ERROR_FAIL_READ_FILE		"fail to read Tetrimino's File ..."
+# define ERROR_FAIL_CLOSE_FILE		"fail to close Tetrimino's File ..."
+# define ERROR_FAIL_PARSE_FILE		"fail to parse Tetrimino's File ..."
+# define ERROR_FAIL_ALLOCATE_MEMORY	"fail to allocate memory ..."
 
 
 // --------------------------------- color ---------------------------------- //
@@ -51,6 +58,11 @@
 # include "../libft/includes/libft.h"
 # include <stdlib.h>
 # include <stdbool.h>
+# include <fcntl.h>
+
+
+#include <stdio.h>
+
 
 // ================================= struct ================================= //
 
@@ -60,18 +72,20 @@ typedef struct s_coord
 	int			y;
 }				t_coord;
 
-typedef struct s_tetrimino
+typedef struct s_ttrmn
 {
 	t_coord		coord[TETRIMINO_BLOCK_COUNT];
 	t_coord		offset;
 	char		print_letter;
-}				t_tetrimino;
+}				t_ttrmn;
 
 // --------------------------------- struct --------------------------------- //
 
 typedef struct s_vars
 {
-	t_list		**tetriminos;
+	t_list		*ttrmns;
+	char		ttrmn_file_buff[TTRMN_MAX_SIZE];
+	int			ttrmn_file_size;
 	char		**grid;
 	int			grid_size;
 
@@ -79,8 +93,13 @@ typedef struct s_vars
 
 // ========================= prototype declaration ========================== //
 
+void	exit_fillit(t_vars *v, char *message, bool success);
 
+void	parse_tetrimino(t_vars *v, char *filename);
+void	read_tetrimino(t_vars *v, char *filename);
+void	validate_tetrimino(t_vars *v);
 
+void	print_tetrimino(t_vars *v);
 
 
 void	print_message(char *message);
