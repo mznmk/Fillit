@@ -6,7 +6,7 @@
 /*   By: mmizuno <mmizuno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 02:39:19 by mmizuno           #+#    #+#             */
-/*   Updated: 2021/06/15 09:16:57 by mmizuno          ###   ########.fr       */
+/*   Updated: 2021/06/16 00:35:07 by mmizuno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 
 // ================================== const ================================= //
 
-# define TETRIMINO_GRID_SIZE		4
-# define TETRIMINO_BLOCK_COUNT		4
+# define C_BLOCK					'#'
+# define C_SPACE					'.'
+# define C_LF						'\n'
+# define C_NULL						'\0'
+# define TM_GRID_SIZE				4
+# define TM_BLOCK_COUNT				4
 
-# define TTRMN_LINE_SIZE			5
-# define TTRMN_SINGLE_SIZE			20
-# define TTRMN_MAX_SIZE				545
+# define TMF_LINE_SIZE				5
+# define TMF_SNGL_SIZE				20
+# define TMF_MAX_SIZE				545
 
 // -------------------------------- message --------------------------------- //
 
@@ -34,7 +38,7 @@
 # define ERROR_FAIL_CLOSE_FILE		"fail to close Tetrimino's File ..."
 # define ERROR_FAIL_PARSE_FILE		"fail to parse Tetrimino's File ..."
 # define ERROR_FAIL_ALLOCATE_MEMORY	"fail to allocate memory ..."
-
+# define SUCCESS_SOLVE_PROBLEM		"solve problem !!"
 
 // --------------------------------- color ---------------------------------- //
 
@@ -60,10 +64,6 @@
 # include <stdbool.h>
 # include <fcntl.h>
 
-
-#include <stdio.h>
-
-
 // ================================= struct ================================= //
 
 typedef struct s_coord
@@ -74,7 +74,7 @@ typedef struct s_coord
 
 typedef struct s_ttrmn
 {
-	t_coord		coord[TETRIMINO_BLOCK_COUNT];
+	t_coord		coord[TM_BLOCK_COUNT];
 	t_coord		offset;
 	char		print_letter;
 }				t_ttrmn;
@@ -84,8 +84,8 @@ typedef struct s_ttrmn
 typedef struct s_vars
 {
 	t_list		*ttrmns;
-	char		ttrmn_file_buff[TTRMN_MAX_SIZE];
-	int			ttrmn_file_size;
+	char		file_buff[TMF_MAX_SIZE];
+	int			file_size;
 	char		**grid;
 	int			grid_size;
 
@@ -99,15 +99,18 @@ void	parse_tetrimino(t_vars *v, char *filename);
 void	read_tetrimino(t_vars *v, char *filename);
 void	validate_tetrimino(t_vars *v);
 
+void	solve_problem(t_vars *v);
+bool	try_solve_problem(char **grid, int grid_size, t_list *ttrmns);
+
+void	create_grid(t_vars *v);
+void	free_grid(t_vars *v);
+
 void	print_tetrimino(t_vars *v);
 
+void	print_solution(t_vars *v);
 
 void	print_message(char *message);
 void	print_success_message(char *message);
 void	print_failure_messsage(char *message);
-
-
-
-
 
 #endif

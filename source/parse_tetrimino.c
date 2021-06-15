@@ -6,7 +6,7 @@
 /*   By: mmizuno <mmizuno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 13:29:02 by mmizuno           #+#    #+#             */
-/*   Updated: 2021/06/15 10:05:00 by mmizuno          ###   ########.fr       */
+/*   Updated: 2021/06/15 15:32:16 by mmizuno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	extract_tetrimino(
 
 	i = -1;
 	block_counter = 0;
-	while (++i < TTRMN_SINGLE_SIZE)
+	while (++i < TMF_SNGL_SIZE)
 	{
-		if (v->ttrmn_file_buff[buff_index + i] == '#')
+		if (v->file_buff[buff_index + i] == C_BLOCK)
 		{
 			tetrimino->coord[block_counter].x = i % 5;
 			tetrimino->coord[block_counter].y = i / 5;
@@ -50,7 +50,7 @@ void	parse_tetrimino(t_vars *v, char *filename)
 	validate_tetrimino(v);
 	buff_index = 0;
 	print_letter = 'A';
-	while (buff_index < v->ttrmn_file_size)
+	while (buff_index < v->file_size)
 	{
 		tetrimino = (t_ttrmn *)malloc(sizeof(t_ttrmn) * 1);
 		if (!tetrimino)
@@ -60,7 +60,7 @@ void	parse_tetrimino(t_vars *v, char *filename)
 		if (!list)
 			exit_fillit(v, ERROR_MSG_HEADER ERROR_FAIL_ALLOCATE_MEMORY, false);
 		ft_lstadd_back(&v->ttrmns, list);
-		buff_index += (TTRMN_SINGLE_SIZE + 1);
+		buff_index += (TMF_SNGL_SIZE + 1);
 		print_letter++;
 	}
 }

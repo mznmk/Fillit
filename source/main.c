@@ -6,7 +6,7 @@
 /*   By: mmizuno <mmizuno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 02:42:39 by mmizuno           #+#    #+#             */
-/*   Updated: 2021/06/15 09:27:59 by mmizuno          ###   ########.fr       */
+/*   Updated: 2021/06/16 00:25:21 by mmizuno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	init_vars(t_vars *v)
 {
-	ft_bzero(v->ttrmn_file_buff, TTRMN_MAX_SIZE);
-	v->ttrmn_file_size = 0;
+	ft_bzero(v->file_buff, TMF_MAX_SIZE);
+	v->file_size = 0;
 	v->ttrmns = NULL;
 	v->grid = NULL;
 	v->grid_size = 0;
@@ -23,18 +23,10 @@ static void	init_vars(t_vars *v)
 
 static void	free_vars(t_vars *v)
 {
-
-// puts("z");
-	// if (v->ttrmns)
-	// 	ft_lstiter(v->ttrmns, &free);
-
-// puts("y");
-
 	if (v->ttrmns)
 		ft_lstclear(&v->ttrmns, &free);
-
-// puts("x");
-
+	if (v->grid)
+		free_grid(v);
 }
 
 /*!
@@ -69,7 +61,7 @@ static void	check_argument(t_vars *v, int argc, char **argv)
 {
 	(void)argv;
 	if (argc != 2)
-		exit_fillit(v, USAGE_MSG_HEADER USAGE_MSG_DESCRIPTION ,false);
+		exit_fillit(v, USAGE_MSG_HEADER USAGE_MSG_DESCRIPTION, false);
 }
 
 /*!
@@ -82,32 +74,12 @@ int	main(int argc, char **argv)
 {
 	t_vars	v;
 
-// puts("a");
-
-	// init
 	init_vars(&v);
-
-// puts("b");
-
-	// check argument
 	check_argument(&v, argc, argv);
-
-// puts("c");
-
-	// parse tetrimino file
 	parse_tetrimino(&v, argv[1]);
-	
-// puts("d");
-
-	// print tetrimino
 	print_tetrimino(&v);
-	
-	// solve problem
-
-	// print solution
-
-	// clear
+	solve_problem(&v);
+	print_solution(&v);
 	free_vars(&v);
-	
 	return (EXIT_SUCCESS);
 }

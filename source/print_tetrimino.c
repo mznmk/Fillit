@@ -6,23 +6,30 @@
 /*   By: mmizuno <mmizuno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 02:44:04 by mmizuno           #+#    #+#             */
-/*   Updated: 2021/06/15 09:54:38 by mmizuno          ###   ########.fr       */
+/*   Updated: 2021/06/16 00:14:00 by mmizuno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fillit.h"
 
+static void	print_tetrimino_horizontal_line(void)
+{
+	ft_putendl("+----+");
+}
+
 static void	print_tetrimino_header(t_ttrmn *tetrimino)
 {
+	ft_putstr(ESC_FNT_BOLD ESC_CLR_YELLOW);
 	ft_putstr("[");
 	ft_putchar(tetrimino->print_letter);
 	ft_putendl("]");
-	ft_putendl("+----+");
+	ft_putstr(ESC_RESET);
+	print_tetrimino_horizontal_line();
 }
 
 static void	print_tetrimino_footer(void)
 {
-	ft_putendl("+----+");
+	print_tetrimino_horizontal_line();
 }
 
 static void	print_tetrimino_block(t_ttrmn *tetrimino)
@@ -33,19 +40,19 @@ static void	print_tetrimino_block(t_ttrmn *tetrimino)
 	char	print_char;
 
 	y = -1;
-	while (++y < TETRIMINO_GRID_SIZE)
+	while (++y < TM_GRID_SIZE)
 	{
 		x = -1;
 		ft_putchar('|');
-		while (++x < TETRIMINO_GRID_SIZE)
+		while (++x < TM_GRID_SIZE)
 		{
 			block_count = -1;
-			print_char = ' ';
-			while (++block_count < TETRIMINO_BLOCK_COUNT)
+			print_char = C_SPACE;
+			while (++block_count < TM_BLOCK_COUNT)
 			{
 				if (tetrimino->coord[block_count].x == x
 					&& tetrimino->coord[block_count].y == y)
-					print_char = '#';
+					print_char = C_BLOCK;
 			}
 			ft_putchar(print_char);
 		}

@@ -6,7 +6,7 @@
 #    By: mmizuno <mmizuno@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 13:32:12 by mmizuno           #+#    #+#              #
-#    Updated: 2021/06/15 09:21:18 by mmizuno          ###   ########.fr        #
+#    Updated: 2021/06/15 22:24:11 by mmizuno          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,10 @@ FILLIT_SRCNAME		= print_message.c \
 					  validate_tetrimino.c \
 					  parse_tetrimino.c \
 					  print_tetrimino.c \
+					  create_grid.c \
+					  try_solve_problem.c \
+					  solve_problem.c \
+					  print_solution.c \
 					  main.c
 FILLIT_SRCS			= $(addprefix $(FILLIT_SRCDIR), $(FILLIT_SRCNAME))
 FILLIT_OBJS			= $(FILLIT_SRCS:.c=.o)
